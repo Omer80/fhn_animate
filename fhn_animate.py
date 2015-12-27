@@ -1,8 +1,27 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun Dec 27 11:52:01 2015
-
-@author: Omer Tzuk <omertz@post.bgu.ac.il>
+#  Created on Sun Dec 27 11:52:01 2015
+#
+#  fhn_rhs.py
+#  
+#  Copyright 2015 Omer Tzuk <omertz@post.bgu.ac.il>
+#  
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
+#
+#  FHN model
 """
 import numpy as np
 import matplotlib.pyplot as plt
@@ -41,20 +60,21 @@ def main(args):
     # set up initial state and global variables
     fhn = FHNmodel(1,2,3,4,3,3)
     dt = 1./30 # 30 fps
-    start = 0
-    finish = 10
+    duration = 10
     #------------------------------------------------------------        
     
     # each frame
     ims = []
     im = plt.imshow(fhn.u0, cmap='viridis', animated=True)
     ims.append([im])
-    for i in np.arange(start+dt,finish+dt,dt):
+    time = 0
+    while time < duration:
         fhn.step(dt)
         vec_u , vec_v = np.split(fhn.state,2)
         u = vec_u.reshape(fhn.n,fhn.n)
         im = plt.imshow(u, cmap='viridis', animated=True)
         ims.append([im])
+        time+=dt
     
     ani = animation.ArtistAnimation(fig, ims, interval=50, blit=True,
                                     repeat_delay=1000)
